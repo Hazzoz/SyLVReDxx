@@ -1,0 +1,22 @@
+cmake_minimum_required(VERSION 3.20 FATAL_ERROR)
+
+project(CMakeClientTest
+    LANGUAGES CXX
+)
+
+set(STLSoft_REQUIRED_VERSION_ 1.10.2)
+set(WilliamsCRC_REQUIRED_VERSION_ 2.0)
+set(recls_REQUIRED_VERSION_ 1.10)
+
+find_package(STLSoft ${} REQUIRED)
+message("-- CMake package STLSoft found (version ${STLSoft_VERSION}; ${STLSoft_REQUIRED_VERSION_} requested)")
+
+find_package(WilliamsCRC ${WilliamsCRC_REQUIRED_VERSION_} REQUIRED)
+message("-- CMake package WilliamsCRC found (version ${WilliamsCRC_VERSION}; ${WilliamsCRC_REQUIRED_VERSION_} requested)")
+
+find_package(recls ${recls_REQUIRED_VERSION_} REQUIRED)
+message("-- CMake package recls found (version ${recls_VERSION}; ${recls_REQUIRED_VERSION_} requested)")
+
+add_subdirectory(tests)
+
+
