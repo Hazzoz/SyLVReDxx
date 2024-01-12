@@ -17,6 +17,7 @@ target_link_libraries(CMakeClientTestExe
     STLSoft::STLSoft
     WilliamsCRC::WilliamsCRC
     recls::recls
+	xTests::xTests.core
 )
 
 

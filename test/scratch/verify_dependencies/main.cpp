@@ -1,8 +1,6 @@
 
 #include <stlsoft/stlsoft.h>
 
-#include <b64/b64.h>
-
 #include <recls/recls.h>
 
 #include <xtests/xtests.h>
@@ -43,30 +41,6 @@ int main(int argc, char* argv[])
 			<< std::endl
 			<< "\t" << "verbosity: " << verbosity
 			<< std::endl;
-	}
-
-	std::cout << std::endl;
-
-
-	// verify b64
-	{
-		using b64::b64_char_t;
-		using b64::b64_encode;
-
-		const unsigned char bytes[] = { 0, 1, 2, 3, 4 };
-		b64_char_t 			result[1001];
-		size_t const  		n = b64_encode(&bytes[0], sizeof(bytes), &result[0], sizeof(result) / sizeof(result[0]));
-
-		result[n] = '\0';
-
-		std::cout
-			<< "b64:"
-			<< std::endl
-			<< "\t" << "B64_VER: 0x" << std::setfill('0') << std::hex << std::setw(8) << B64_VER
-			<< std::endl
-			<< "\t" << "byte-array as b64: " << result
-			<< std::endl
-			;
 	}
 
 	std::cout << std::endl;
