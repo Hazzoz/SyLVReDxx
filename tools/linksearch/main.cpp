@@ -1,7 +1,13 @@
 
+#include <recls/recls.hpp>
+#include <recls/cpp/search_sequence.hpp>
+
+#include <iostream>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 
 static
 int
@@ -62,9 +68,18 @@ process(
 	char const*	search_dir
 )
 {
+	using recls::search_sequence;
+
 	printf("process(search_dir=%s)\n", search_dir);
 
-	return 0;
+	search_sequence	files(search_dir,"*", recls::FILES | recls::RECURSIVE);
+
+	std::copy(
+		files.begin(), files.end()
+	,	std::ostream_iterator<search_sequence::value_type>(std::cout, "\n")
+	);
+
+	return EXIT_SUCCESS;
 }
 
 

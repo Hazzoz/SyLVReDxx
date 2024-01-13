@@ -15,8 +15,6 @@ endif(WIN32)
 
 target_link_libraries(linksearch
     STLSoft::STLSoft
-    WilliamsCRC::WilliamsCRC
     recls::recls
-	xTests::xTests.core
 )
 
