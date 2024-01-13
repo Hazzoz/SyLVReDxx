@@ -23,5 +23,6 @@ message("-- CMake package xTests found (version ${xTests_VERSION}; ${xTests_REQU
 
 
 add_subdirectory(test)
+add_subdirectory(tools)
 
 
