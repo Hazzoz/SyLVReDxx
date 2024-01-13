@@ -22,6 +22,9 @@ find_package(xTests ${xTests_REQUIRED_VERSION_} REQUIRED)
 message("-- CMake package xTests found (version ${xTests_VERSION}; ${xTests_REQUIRED_VERSION_} requested)")
 
 
+set(CMAKE_CXX_STANDARD 11)
+
+
 add_subdirectory(test)
 add_subdirectory(tools)
 

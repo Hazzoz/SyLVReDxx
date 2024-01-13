@@ -1,5 +1,5 @@
 
-add_executable(CMakeLinkSearchTestExe main.cpp)
+add_executable(linksearch main.cpp)
 
 if(UNIX)
 
@@ -13,7 +13,7 @@ if(WIN32)
 endif(WIN32)
 
 
-target_link_libraries(CMakeClientTestExe
+target_link_libraries(linksearch
     STLSoft::STLSoft
     WilliamsCRC::WilliamsCRC
     recls::recls
