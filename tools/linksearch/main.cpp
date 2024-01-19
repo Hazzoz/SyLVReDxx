@@ -1,6 +1,5 @@
 
 #include <recls/recls.hpp>
-#include <recls/cpp/search_sequence.hpp>
 
 #include <iostream>
 
@@ -72,12 +71,50 @@ process(
 
 	printf("process(search_dir=%s)\n", search_dir);
 
-	search_sequence	files(search_dir,"*", recls::FILES | recls::RECURSIVE);
+	auto const recls_flags =
+		recls::RECLS_F_LINK_COUNT |
+		recls::RECLS_F_NODE_INDEX |
+		recls::RECLS_F_NO_FOLLOW_LINKS |
+		recls::FILES |
+		recls::RECURSIVE
+		;
 
-	std::copy(
-		files.begin(), files.end()
-	,	std::ostream_iterator<search_sequence::value_type>(std::cout, "\n")
-	);
+	search_sequence	files(search_dir,"*", recls_flags);
+
+	for (auto i = files.begin(); files.end() != i; ++i)
+	{
+		auto entry = *i;
+
+#if 0
+		// example filtering: hide readonly
+		if (entry.is_readonly())
+		{
+			continue;
+		}
+#endif
+
+		// filtering: only care about files
+		if (entry.is_directory() || entry.is_link())
+		{
+			continue;
+		}
+
+		if (entry.num_links() < 2)
+		{
+			continue;
+		}
+
+		std::cout
+			<< '\t'
+			<< entry
+			<< '\t'
+			<< entry.get_file_size() << " byte(s)"
+			<< '\t'
+			<< entry.num_links() << " link(s)"
+			<< '\t'
+			<< entry.device_id() << '/' << entry.node_index()
+			<< std::endl;
+	}
 
 	return EXIT_SUCCESS;
 }
