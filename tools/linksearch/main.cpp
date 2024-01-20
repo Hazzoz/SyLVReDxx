@@ -7,6 +7,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <algorithm>
+#include <cassert>
+#include <iostream>
+#include <map>
+#include <vector>
 
 static
 int
@@ -81,6 +86,11 @@ process(
 
 	search_sequence	files(search_dir,"*", recls_flags);
 
+	std::map<
+         std::string
+     ,   std::vector<std::string>
+     >   m;
+
 	for (auto i = files.begin(); files.end() != i; ++i)
 	{
 		auto entry = *i;
@@ -104,16 +114,52 @@ process(
 			continue;
 		}
 
+		std::string id = std::to_string(entry.device_id()) + '/' + std::to_string(entry.node_index());
+		auto j = m.find(id);
+
+		if (m.end() == j)
+		{
+			m.insert(std::make_pair(id, std::vector<std::string>{ entry.get_directory_path() + entry.get_file()}));
+		}
+		else
+		{
+			(*j).second.push_back(entry.get_directory_path() + entry.get_file());
+		}
+
 		std::cout
-			<< '\t'
-			<< entry
-			<< '\t'
-			<< entry.get_file_size() << " byte(s)"
-			<< '\t'
-			<< entry.num_links() << " link(s)"
-			<< '\t'
-			<< entry.device_id() << '/' << entry.node_index()
+//			<< '\t'
+//			<< entry
+//			<< '\t'
+//			<< entry.get_file_size() << " byte(s)"
+//			<< '\t'
+//			<< entry.num_links() << " link(s)"
+//			<< '\t'
+//			<< entry.device_id() << '/' << entry.node_index()
 			<< std::endl;
+	}
+
+	for (auto i = m.begin(); m.end() != i; ++i)
+	{
+		auto entries = (*i).second;
+
+		std::sort(entries.begin(), entries.end());
+
+		auto const& surnames = (*i).second;
+
+		std::cout
+			<< (*i).first
+			<< " -> "
+			<< std::endl;
+
+		for (auto j = entries.begin(); entries.end() != j; ++j)
+		{
+			auto const& entry = *j;
+
+			std::cout
+				<< '\t'
+				<< entry
+				<< std::endl;
+		}
 	}
 
 	return EXIT_SUCCESS;
