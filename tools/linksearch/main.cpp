@@ -87,9 +87,12 @@ process(
 	search_sequence	files(search_dir,"*", recls_flags);
 
 	std::map<
-         std::string
-     ,   std::vector<std::string>
-     >   m;
+		std::pair<
+			std::size_t
+		,	recls::recls_uint64_t
+		>
+     ,	std::vector<std::string>
+     >	m;
 
 	for (auto i = files.begin(); files.end() != i; ++i)
 	{
@@ -114,7 +117,13 @@ process(
 			continue;
 		}
 
-		std::string id = std::to_string(entry.device_id()) + '/' + std::to_string(entry.node_index());
+		/*
+		std::pair<stlsoft::size_type,recls::recls_uint64_t> id;
+		id.first = entry.device_id();
+		id.second = entry.node_index();
+		 */
+		auto id = std::make_pair(entry.device_id(), entry.node_index());
+
 		auto j = m.find(id);
 
 		if (m.end() == j)
@@ -147,7 +156,7 @@ process(
 		auto const& surnames = (*i).second;
 
 		std::cout
-			<< (*i).first
+			<< (*i).first.first << '/' << (*i).first.second
 			<< " -> "
 			<< std::endl;
 
