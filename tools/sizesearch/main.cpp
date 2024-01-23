@@ -150,6 +150,11 @@ process(
 	{
 		auto entries = (*i).second;
 
+		if (entries.size() < 2)
+		{
+			continue;
+		}
+
 		std::sort(entries.begin(), entries.end());
 
 		auto const& surnames = (*i).second;
